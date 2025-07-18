@@ -82,14 +82,16 @@ sheet = gc.open("python").sheet1
 submit_btn = st.button('送信')
 
 if submit_btn:
-    st.text('お疲れ様でした！')
-
-    # 入力内容を一つのリストにまとめる
-    row_data = [str(day) + name]
+    st.success('お疲れ様でした！')
 
     for customer, new_customer, genre, number, time in inputs:
-        if customer != '選択してください':
-            row_data.extend([new_customer if customer == 'その他' else customer, genre, number, time])
-
-    # 送信
-    sheet.append_row(row_data)
+        if customer != '選択してください' and genre != '選択してください' and number != '' and time > 0:
+            row = [
+                str(day),  # 日付
+                name,      # 名前
+                new_customer if customer == 'その他' else customer,  # メーカー名
+                genre,     # 作業内容
+                number,    # 工番
+                time       # 時間
+            ]
+            sheet.append_row(row)
