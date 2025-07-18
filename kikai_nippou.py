@@ -75,7 +75,7 @@ total_time = sum([time for _, _, _, _, time in inputs])
 if total_time != 0:
     st.text(f'合計: {total_time:.2f} 時間')
 
-# シートを開く
+#  シートを開く
 sheet = gc.open("python").sheet1
 
 # 送信ボタン
