@@ -2,7 +2,7 @@ import gspread
 import streamlit as st
 from oauth2client.service_account import ServiceAccountCredentials
 
-#  Streamlit SecretsからTOML形式で情報を取得
+# Streamlit SecretsからTOML形式で情報を取得
 google_cloud_secret = st.secrets["google_cloud"]
 
 # Secretsから必要な情報を構築
