@@ -66,54 +66,26 @@ def create_input_fields(index):
 
     return customer, new_customer, genre, number, time
 
-# メーカー1の入力フォームが完了したら次のメーカーを表示
-if st.session_state.current_manufacturer == 1:
-    customer, new_customer, genre, number, time = create_input_fields(1)
-    if time > 0:  # メーカー1の時間入力が完了したら次を表示
-        st.session_state.inputs.append((customer, new_customer, genre, number, time))
-        st.session_state.current_manufacturer = 2
-
-elif st.session_state.current_manufacturer == 2:
-    customer, new_customer, genre, number, time = create_input_fields(2)
-    if time > 0:  # メーカー2の時間入力が完了したら次を表示
-        st.session_state.inputs.append((customer, new_customer, genre, number, time))
-        st.session_state.current_manufacturer = 3
-
-elif st.session_state.current_manufacturer == 3:
-    customer, new_customer, genre, number, time = create_input_fields(3)
-    if time > 0:  # メーカー3の時間入力が完了したら次を表示
-        st.session_state.inputs.append((customer, new_customer, genre, number, time))
-        st.session_state.current_manufacturer = 4
-
-elif st.session_state.current_manufacturer == 4:
-    customer, new_customer, genre, number, time = create_input_fields(4)
-    if time > 0:  # メーカー4の時間入力が完了したら次を表示
-        st.session_state.inputs.append((customer, new_customer, genre, number, time))
-        st.session_state.current_manufacturer = 5
-
-elif st.session_state.current_manufacturer == 5:
-    customer, new_customer, genre, number, time = create_input_fields(5)
-    if time > 0:  # メーカー5の時間入力が完了したら次を表示
+# メーカーの入力フォームを動的に表示
+if st.session_state.current_manufacturer <= 5:
+    customer, new_customer, genre, number, time = create_input_fields(st.session_state.current_manufacturer)
+    if time > 0:  # 時間入力後、次のフォームへ進む
         st.session_state.inputs.append((customer, new_customer, genre, number, time))
 
-# 合計時間
-total_time = sum([time for _, _, _, _, time in st.session_state.inputs])
-
-# 合計時間を表示
-if total_time != 0:
-    st.text(f'合計: {total_time:.2f} 時間')
-
-# シートを開く
-sheet = gc.open("python").sheet1
-
-# 送信ボタン
-submit_btn = st.button('送信')
-
-if submit_btn:
-    st.success('お疲れ様でした！')
-
-    for customer, new_customer, genre, number, time in st.session_state.inputs:
+    # 「次へ」ボタン
+    next_button = st.button('次へ', key=f'next_{st.session_state.current_manufacturer}')
+    if next_button:
         if customer != '選択してください' and genre != '選択してください' and number != '' and time > 0:
+            st.session_state.current_manufacturer += 1  # 次のメーカーのフォームを表示
+
+    # 各メーカーの「送信」ボタン
+    if time > 0:  # 時間が入力されていたら送信ボタンを表示
+        submit_btn = st.button(f'送信 メーカー{st.session_state.current_manufacturer}', key=f'submit_{st.session_state.current_manufacturer}')
+        if submit_btn:
+            st.success(f'メーカー{st.session_state.current_manufacturer}のデータを送信しました！')
+
+            # データをGoogle Sheetsに送信
+            sheet = gc.open("python").sheet1
             row = [
                 str(day),  # 日付
                 name,      # 名前
@@ -123,3 +95,10 @@ if submit_btn:
                 time       # 時間
             ]
             sheet.append_row(row)
+
+# 合計時間
+total_time = sum([time for _, _, _, _, time in st.session_state.inputs])
+
+# 合計時間を表示
+if total_time != 0:
+    st.text(f'合計: {total_time:.2f} 時間')
