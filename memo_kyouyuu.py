@@ -58,18 +58,19 @@ memo = st.text_input(
 submit_btn = st.button('送信')
 
 if submit_btn:
-    # B列（2列目）をすべて取得
-    b_column = sheet.col_values(2)  # B列 = 2列目
+    # B列（記入者名）の 5行目以降 を取得
+    b_column = sheet.col_values(2)[4:]  # B列の5行目以降（0-indexで4番目から）
 
-    # 次に書き込むべき行番号（空いている一番下の次の行）
-    next_row = len(b_column) + 1
+    # 実際の次の空行（5行目スタートなので +5）
+    next_row = len(b_column) + 5
 
-    # データを行として準備
+    # 書き込むデータを用意
     row_data = [str(day1), name, m_name, number, str(day2), memo]
 
     try:
-        sheet.update(f"A{next_row}:F{next_row}", [row_data])  # 1行分の範囲に書き込み
-        st.success("送信完了！")
-        st.write(f"B列の空行（{next_row}行目）に書き込みました。")
+        # 1行まるごと A列〜F列 に書き込む
+        sheet.update(f"A{next_row}:F{next_row}", [row_data])
+        st.success("送信完了しました！")
+        st.write(f"{next_row} 行目にデータを書き込みました。")
     except Exception as e:
         st.error(f"スプレッドシートへの書き込みに失敗しました: {e}")
