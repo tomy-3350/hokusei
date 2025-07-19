@@ -1,6 +1,25 @@
-import gspread
 import streamlit as st
-from oauth2client.service_account import ServiceAccountCredentials
+import gspread
+from google.oauth2.service_account import Credentials
+
+# Streamlit secrets から認証情報を取得
+service_account_info = st.secrets["google_cloud"]
+
+# 認証オブジェクトを作成
+creds = Credentials.from_service_account_info(
+    service_account_info,
+    scopes=[
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+)
+
+# gspread クライアント作成
+client = gspread.authorize(creds)
+
+# スプレッドシートを開く（名前）
+sheet = client.open("memo_kyouyuu").sheet1
+
 
 ############################################
 day1 = str()
@@ -31,3 +50,10 @@ day2 = st.date_input("日付を選択してください")
 
 memo = st.text_input(
     "内容",placeholder="入力してください")
+
+############ 送信ボタン################
+submit_btn = st.button('送信')
+
+if submit_btn:
+    st.success('送信完了！')
+    sheet.append_row([str(day1) + name, m_name, number,str(day2),memo ])
