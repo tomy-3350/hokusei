@@ -3,11 +3,11 @@ import streamlit as st
 from oauth2client.service_account import ServiceAccountCredentials
 
 ############################################
-day1 = "日付を選択してください"
+day1 = str()
 name = "入力してください"
 m_name = "入力してください"
 number = "入力してください"
-day2 = "日付を選択してください"
+day2 = str()
 memo = "入力してください"
 
 ############################################
