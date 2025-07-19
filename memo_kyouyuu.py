@@ -8,10 +8,11 @@ service_account_info = st.secrets["google_cloud"]
 # 認証オブジェクトを作成
 creds = Credentials.from_service_account_info(
     service_account_info,
-    scopes=[
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive"
-      ])
+    scopes=["https://spreadsheets.google.com/feeds",
+            'https://www.googleapis.com/auth/spreadsheets',
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"]
+    )
 
 #  gspread クライアント作成
 client = gspread.authorize(creds)
