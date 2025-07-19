@@ -11,8 +11,7 @@ creds = Credentials.from_service_account_info(
     scopes=[
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/drive.file"])
+      ])
 
 #  gspread クライアント作成
 client = gspread.authorize(creds)
