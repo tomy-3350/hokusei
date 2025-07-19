@@ -37,7 +37,7 @@ st.text("型の改修内容や期限、出荷、トライ日程などメモ帳�
 st.text("記入日、記入者名、メーカー、工番等、期限や日程、内容の順に入力してください")
 st.text("共有シートを開き、完了したものや取り消したいものはチェックをつけると取り消し線が入ります")
 # スプレッドシートURLを表示
-spreadsheet_url = https://docs.google.com/spreadsheets/d/1owRvyJDQj2Na_4ENEyJ7gooabtTzUM2GjqBcw-_HoqM/edit?gid=1386834576#gid=1386834576
+spreadsheet_url = "https://docs.google.com/spreadsheets/d/1owRvyJDQj2Na_4ENEyJ7gooabtTzUM2GjqBcw-_HoqM/edit?gid=1386834576#gid=1386834576"
 st.markdown(f"[📄 共有シートを開く]({spreadsheet_url})", unsafe_allow_html=True)
 
 day1 = st.date_input("記入日を選択してください")
