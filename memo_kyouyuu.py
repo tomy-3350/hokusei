@@ -21,3 +21,17 @@ day1 = st.date_input("日付を選択してください")
 name = st.text_input(
     "記入者名",
     "入力してください")
+
+m_name = st.text_input(
+    "メーカー",
+    "入力してください")
+
+number = st.text_input(
+    "工番等",
+    "入力してください")
+
+day2 = st.date_input("日付を選択してください")
+
+memo = st.text_input(
+    "内容",
+    "入力してください")
