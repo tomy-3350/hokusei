@@ -64,7 +64,3 @@ if submit_btn:
         st.write("書き込み成功:", response)
     except Exception as e:
         st.error(f"スプレッドシートへの書き込みに失敗しました: {e}")
-
-        values = sheet.get_all_values()
-        st.write("現在のスプレッドシート内容（最後の5行）:")
-        st.table(values[-5:])
