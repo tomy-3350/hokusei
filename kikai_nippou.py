@@ -42,7 +42,7 @@ if "form_count" not in st.session_state:
 
 # --- 入力フォーム定義 ---
 def create_input_fields(index):
-    st.subheader(f"作業 {index}")
+    st.markdown(f"---\n### 作業 {index}")
 
     customer = st.selectbox(
         f'メーカー{index}',
@@ -52,7 +52,7 @@ def create_input_fields(index):
 
     new_customer = ''
     if customer == 'その他':
-        new_customer = st.text_input(f'メーカー名を入力{index}', key=f'new_customer_{index}')
+        new_customer = st.text_input(f'メーカー名を入力{index}', key=f'new_customer_{index}', placeholder="例: 株式会社〇〇")
 
     genre = st.selectbox(
         f'作業内容{index}',
@@ -60,9 +60,9 @@ def create_input_fields(index):
         key=f'genre_{index}'
     ) if customer != '選択してください' else '選択してください'
 
-    number = st.text_input(f'工番を入力{index}', key=f'number_{index}') if genre != '選択してください' else ''
+    number = st.text_input(f'工番を入力{index}', key=f'number_{index}', placeholder="例: 51a111") if genre != '選択してください' else ''
 
-    # --- text_inputで時間を入力 ---
+    # --- 時間をテキスト入力で受け取って float に変換 ---
     time_input = st.text_input(f'時間を入力{index}', key=f'time_{index}', placeholder="例: 1.5")
     try:
         time = float(time_input) if time_input.strip() != "" else 0.0
@@ -104,9 +104,9 @@ for inp in inputs:
 
 # --- 合計時間表示 ---
 if total_time > 0:
-    st.markdown(f"### 合計時間: {total_time:.2f} 時間")
+    st.markdown(f"### ✅ 合計時間: {total_time:.2f} 時間")
 
-# --- 送信ボタン ---
+# --- 送信ボタン（有効入力がある場合のみ表示） ---
 if valid_inputs:
     if st.button("送信"):
         for inp in valid_inputs:
@@ -121,4 +121,4 @@ if valid_inputs:
             sheet.append_row(row)
 
         st.success("作業内容を送信しました。お疲れ様でした！ 🎉")
-        st.session_state.form_count = 1  # フォーム数をリセット（必要に応じて）
+        st.session_state.form_count = 1  # 入力数リセット（お好みで）
