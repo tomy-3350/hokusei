@@ -58,5 +58,9 @@ memo = st.text_input(
 submit_btn = st.button('送信')
 
 if submit_btn:
-    st.success('送信完了！')
-    sheet.append_row([str(day1) , name, m_name, number,str(day2),memo ])
+    try:
+        response = sheet.append_row([str(day1), name, m_name, number, str(day2), memo])
+        st.success("送信完了！")
+        st.write("書き込み成功:", response)
+    except Exception as e:
+        st.error(f"スプレッドシートへの書き込みに失敗しました: {e}")
