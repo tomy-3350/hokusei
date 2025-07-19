@@ -60,7 +60,7 @@ def create_input_fields(index):
         key=f'genre_{index}'
     ) if customer != '選択してください' else '選択してください'
 
-    number = st.text_input(f'工番を入力{index}', key=f'number_{index}', placeholder="例: 51a111") if genre != '選択してください' else ''
+    number = st.text_input(f'工番を入力{index}', key=f'number_{index}', placeholder="例: A1234") if genre != '選択してください' else ''
 
     # --- 時間をテキスト入力で受け取って float に変換 ---
     time_input = st.text_input(f'時間を入力{index}', key=f'time_{index}', placeholder="例: 1.5")
@@ -87,6 +87,7 @@ for i in range(1, st.session_state.form_count + 1):
 if st.session_state.form_count < 5:
     if st.button("次へ"):
         st.session_state.form_count += 1
+        st.experimental_rerun()  # ✅ 即時再描画で次のフォームを表示！
 
 # --- 有効データ抽出 ---
 valid_inputs = []
@@ -121,4 +122,4 @@ if valid_inputs:
             sheet.append_row(row)
 
         st.success("作業内容を送信しました。お疲れ様でした！ 🎉")
-        st.session_state.form_count = 1  # 入力数リセット（お好みで）
+        st.session_state.form_count = 1  # 入力数リセット（必要なら）
