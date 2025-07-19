@@ -58,7 +58,6 @@ memo = st.text_input(
 submit_btn = st.button('送信')
 
 if submit_btn:
-    try:
         # B列を取得（1-index なので 2列目）
         b_values = sheet.col_values(2)  # B列全体
 
