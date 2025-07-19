@@ -87,7 +87,7 @@ for i in range(1, st.session_state.form_count + 1):
 if st.session_state.form_count < 5:
     if st.button("次へ"):
         st.session_state.form_count += 1
-        st.experimental_rerun()  # ✅ 即時再描画で次のフォームを表示！
+        st.rerun()  # ✅ 即時再描画で次のフォームを表示！
 
 # --- 有効データ抽出 ---
 valid_inputs = []
