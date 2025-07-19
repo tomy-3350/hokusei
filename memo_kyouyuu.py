@@ -19,8 +19,7 @@ st.text("共有シートを開き、完了したものや取り消したいも�
 day1 = st.date_input("記入日を選択してください")
 
 name = st.text_input(
-    "記入者名",
-    "入力してください",placeholder="入力してください")
+    "記入者名",placeholder="入力してください")
 
 m_name = st.text_input(
     "メーカー",
