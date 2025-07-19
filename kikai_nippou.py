@@ -58,7 +58,7 @@ def create_input_fields(index):
 
     new_customer = ''
     if customer == 'その他':
-        new_customer = st.text_input(f'メーカー名を入力{index}', key=f'new_customer_{index}', placeholder="例: 株式会社〇〇")
+        new_customer = st.text_input(f'メーカー名を入力{index}', key=f'new_customer_{index}', placeholder="メーカー名を入力")
 
     genre = st.selectbox(
         f'作業内容{index}',
