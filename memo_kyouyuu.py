@@ -79,4 +79,4 @@ if submit_btn:
     # B列〜G列に書き込む（A列は無視）
     sheet.update(f"B{target_row}:G{target_row}", [row_data])
 
-    st.success(f"{target_row} 行目（B列〜G列）に送信しました！")
+    st.success("送信しました！")
