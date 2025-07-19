@@ -2,7 +2,7 @@ import gspread
 import streamlit as st
 from oauth2client.service_account import ServiceAccountCredentials
 
-# --- Google認証 ---
+# --- 認証情報読み込み ---
 google_cloud_secret = st.secrets["google_cloud"]
 service_account_info = {
     "type": google_cloud_secret["type"],
@@ -17,17 +17,23 @@ service_account_info = {
     "client_x509_cert_url": google_cloud_secret["client_x509_cert_url"],
     "universe_domain": google_cloud_secret["universe_domain"]
 }
-creds = ServiceAccountCredentials.from_json_keyfile_dict(
-    service_account_info,
-    [
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive.file",
-        "https://www.googleapis.com/auth/drive"
-    ]
-)
-gc = gspread.authorize(creds)
-sheet = gc.open("python").sheet1
+
+# ✅ キャッシュ付きシート取得関数
+@st.cache_resource
+def get_sheet():
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(
+        service_account_info,
+        [
+            "https://spreadsheets.google.com/feeds",
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"
+        ]
+    )
+    gc = gspread.authorize(creds)
+    return gc.open("python").sheet1
+
+sheet = get_sheet()
 
 # --- UI ---
 st.title('北青 機械課 作業日報')
@@ -62,7 +68,7 @@ def create_input_fields(index):
 
     number = st.text_input(f'工番を入力{index}', key=f'number_{index}', placeholder="例: A1234") if genre != '選択してください' else ''
 
-    # --- 時間をテキスト入力で受け取って float に変換 ---
+    # --- 時間入力（プレースホルダ付きテキスト） ---
     time_input = st.text_input(f'時間を入力{index}', key=f'time_{index}', placeholder="例: 1.5")
     try:
         time = float(time_input) if time_input.strip() != "" else 0.0
@@ -107,9 +113,10 @@ for inp in inputs:
 if total_time > 0:
     st.markdown(f"### ✅ 合計時間: {total_time:.2f} 時間")
 
-# --- 送信ボタン（有効入力がある場合のみ表示） ---
+# --- 送信ボタン（有効データがある時だけ表示） ---
 if valid_inputs:
     if st.button("送信"):
+        rows_to_append = []
         for inp in valid_inputs:
             row = [
                 str(day),
@@ -119,7 +126,10 @@ if valid_inputs:
                 inp["number"],
                 inp["time"]
             ]
-            sheet.append_row(row)
+            rows_to_append.append(row)
+
+        # ✅ 一括送信
+        sheet.append_rows(rows_to_append)
 
         st.success("作業内容を送信しました。お疲れ様でした！ 🎉")
-        st.session_state.form_count = 1  # 入力数リセット（必要なら）
+        st.session_state.form_count = 1  # 入力フォーム数リセット
