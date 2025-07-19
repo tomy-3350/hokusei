@@ -58,23 +58,25 @@ memo = st.text_input(
 submit_btn = st.button('送信')
 
 if submit_btn:
-        # B列を取得（1-index なので 2列目）
-        b_values = sheet.col_values(2)  # B列全体
+    # B列を取得（1-index なので 2列目）
+    b_values = sheet.col_values(2)  # B列全体
 
-        target_row = None
+    target_row = None
 
-        # 5行目以降で空白セルを探す
-        for i in range(4, len(b_values)):
-            if b_values[i].strip() == "":
-                target_row = i + 1  # 実際の行番号に合わせて +1
-                break
+    # 5行目以降で空白セルを探す
+    for i in range(4, len(b_values)):
+        if b_values[i].strip() == "":
+            target_row = i + 1  # 実際の行番号に合わせて +1
+            break
 
-        # B列がすべて埋まっている場合は最後に追加
-        if target_row is None:
-            target_row = len(b_values) + 1
+    # B列がすべて埋まっている場合は最後に追加
+    if target_row is None:
+        target_row = len(b_values) + 1
 
-        # 書き込むデータ（B列〜G列＝6項目）
-        row_data = [str(day1), name, m_name, number, str(day2), memo]
+    # 書き込むデータ（B列〜G列＝6項目）
+    row_data = [str(day1), name, m_name, number, str(day2), memo]
 
-        # B列〜G列に書き込む（A列は無視）
-        sheet.update(f"B{target_row}:G{target_row}", [row_data])
+    # B列〜G列に書き込む（A列は無視）
+    sheet.update(f"B{target_row}:G{target_row}", [row_data])
+
+    st.success(f"{target_row} 行目（B列〜G列）に送信しました！")
