@@ -11,6 +11,8 @@ creds = Credentials.from_service_account_info(
     scopes=[
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive.file",
     ]
 )
 
@@ -56,4 +58,4 @@ submit_btn = st.button('送信')
 
 if submit_btn:
     st.success('送信完了！')
-    sheet.append_row([str(day1) + name, m_name, number,str(day2),memo ])
+    sheet.append_row([str(day1) , name, m_name, number,str(day2),memo ])
