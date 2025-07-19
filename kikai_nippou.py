@@ -128,19 +128,20 @@ if valid_inputs:
             ]
             rows_to_append.append(row)
 
-        # ✅ 合計時間を追加
-        total_row = [
-            str(day),
-            name,
-            "合計",
-            "",
-            "",
-            total_time
-        ]
-        rows_to_append.append(total_row)
+        # ✅ 現在のシート行数を取得
+        current_rows = len(sheet.get_all_values())
 
         # ✅ 一括送信
         sheet.append_rows(rows_to_append)
 
+        # ✅ 送信した最初の行番号（1オリジン）
+        start_row = current_rows + 1
+        end_row = start_row + len(rows_to_append) - 1
+
+        # ✅ 同じ日付＋名前の最後の行にだけ total_time を入れる
+        for i in range(len(rows_to_append)):
+            if i == len(rows_to_append) - 1:  # 最後の行だけ
+                sheet.update_cell(start_row + i, 7, total_time)  # G列 = col 7
+
         st.success("作業内容を送信しました。お疲れ様でした！ 🎉")
-        st.session_state.form_count = 1  # 入力フォーム数リセット
+        st.session_state.form_count = 1
