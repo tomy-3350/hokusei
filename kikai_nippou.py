@@ -128,6 +128,17 @@ if valid_inputs:
             ]
             rows_to_append.append(row)
 
+        # ✅ 合計時間を追加
+        total_row = [
+            str(day),
+            name,
+            "合計",
+            "",
+            "",
+            total_time
+        ]
+        rows_to_append.append(total_row)
+
         # ✅ 一括送信
         sheet.append_rows(rows_to_append)
 
