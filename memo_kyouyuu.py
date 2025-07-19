@@ -19,7 +19,6 @@ client = gspread.authorize(creds)
 
 # スプレッドシートを開く（名前）
 #sheet = client.open("memo_kyouyuu").sheet1
-
 # スプレッドシートを開く（id）
 sheet = client.open_by_key("1owRvyJDQj2Na_4ENEyJ7gooabtTzUM2GjqBcw-_HoqM").sheet1
 
