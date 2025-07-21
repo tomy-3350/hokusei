@@ -31,7 +31,9 @@ def get_sheet():
         ]
     )
     gc = gspread.authorize(creds)
-    return gc.open("python").sheet1
+    spreadsheet_id = "13oNftbSq1ukI7Hsl2TfLeqz5dwjcHFJFCxZryte-2oE"
+    return gc.open_by_key(spreadsheet_id).sheet1
+
 
 sheet = get_sheet()
 
