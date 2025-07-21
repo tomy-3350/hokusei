@@ -37,7 +37,7 @@ def get_sheet():
 sheet = get_sheet()
 
 # --- UI ---
-st.title('北青 CAD課 作業日報')
+st.title('北青 CAD課作業日報')
 st.caption("メーカー名、工番、作業内容、時間を入力してください。")
 
 day = st.date_input("日付を選択してください")
